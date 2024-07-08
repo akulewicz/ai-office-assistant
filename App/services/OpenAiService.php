@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 use OpenAI;
 
@@ -17,14 +19,17 @@ class OpenAIService
      * Sends a request to the OpenAI API to generate a response based on the given parameters.
      *
      * @param array $params {
-     *     @var string prompt The text prompt to generate a response for.
-     *     @var string url Optional. The URL of the image to generate an alternative text for.
-     *     @var int max_tokens Optional. The maximum number of tokens to generate. Default is 300.
+     *     $params = [
+     *          'prompt' => (string) Optional. The text prompt to generate a response for. 
+     *          'url' => (string) Optional. The URL of the image to generate an alternative text for.
+     *          'max_tokens' => (int) Optional. The maximum number of tokens to generate. Default is 300.
+     *  ]
+     *
      * }
      *
      * @return string The response from the OpenAI API.
      */
-    public function getResponse($params)
+    public function getResponse(array $params) : string
     {
         $body = [
             'model' => 'gpt-4o',

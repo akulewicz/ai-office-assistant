@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Controllers;
 
@@ -36,7 +37,7 @@ class AltGeneratorController
         $openAIService = new OpenAIService();
 
         $response = $openAIService->getResponse([
-            'prompt' => 'Stwórz tekst alternatywny dla obrazka z poniższego pliku. Opis powinien mieć maksymalnie 250 znaków',
+            'prompt' => 'Stwórz tekst alternatywny dla obrazka z poniższego pliku. Opis powinien mieć maksymalnie 200 znaków',
             'url' => $url,
         ]);
 
