@@ -11,9 +11,15 @@ class Validator
         if (is_string($value)) {
             $value = trim($value);
             $length = strlen($value);
-            return $length >= $min || $length <= $max;
+            return $length >= $min && $length <= $max;
         }
 
         return false;
+    }
+
+    public static function url(string $value) : mixed
+    {
+        $url = trim($value);
+        return filter_var($url, FILTER_VALIDATE_URL);
     }
 }
