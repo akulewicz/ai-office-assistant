@@ -4,7 +4,8 @@
 namespace App\Controllers;
 
 use Framework\Validator;
-use OpenAI;
+use App\Services\OpenAIService;
+
 
 class AltGeneratorController
 {
@@ -15,7 +16,6 @@ class AltGeneratorController
 
     public function generate()
     {
-        
         $url = $_POST['url'];
 
         $errors = [];
@@ -29,39 +29,17 @@ class AltGeneratorController
                 'errors'=> $errors,
                 'url' => $url
             ]);
-            return;
+
+            exit();
         }
 
-        $apiKey = $_ENV['API_KEY'];
+        $openAIService = new OpenAIService();
 
-        $client = OpenAI::client($apiKey);
-
-        $result = $client->chat()->create([
-        'model' => 'gpt-4o',
-        'messages' => [
-            [
-                'role' => 'user',
-                'content' => [
-                    [
-                        'type' => 'text', 
-                        'text' => "Stwórz tekst alternatywny do tego obrazka. Teskt powinien mieć maksymalnie 150 znaków."
-                    ],
-                    [
-                        'type' => 'image_url', 
-                        'image_url' =>  [
-                            'url' => "https://www.gcs.gda.pl/wp-content/uploads/2024/02/parging_gcs.webp",
-                        ],
-                    ],
-            ],
-            
-        ],
-        ],
-        'max_tokens' => 4000,
-        
+        $response = $openAIService->getResponse([
+            'prompt' => 'Stwórz tekst alternatywny dla obrazka z poniższego pliku. Opis powinien mieć maksymalnie 250 znaków',
+            'url' => $url,
         ]);
 
-
-
-        echo($result->choices[0]->message->content);
+        dd($response);
     }
 }
